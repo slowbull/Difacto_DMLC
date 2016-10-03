@@ -1,0 +1,14 @@
+#   LZ4 - Fast LZ compression algorithm
+#   Copyright (C) 2011-2014, Yann Collet.
+#   BSD 2-Clause License (http://www.opensource.org/licenses/bsd-license.php)
+
+prefix=/home/jonny/ZHOU/Package/Difacto_DMLC/ps-lite/deps
+libdir=/home/jonny/ZHOU/Package/Difacto_DMLC/ps-lite/deps/lib
+includedir=/home/jonny/ZHOU/Package/Difacto_DMLC/ps-lite/deps/include
+
+Name: lz4
+Description: fast lossless compression algorithm library
+URL: http://code.google.com/p/lz4/
+Version: 129
+Libs: -L/home/jonny/ZHOU/Package/Difacto_DMLC/ps-lite/deps/lib -llz4
+Cflags: -I/home/jonny/ZHOU/Package/Difacto_DMLC/ps-lite/deps/include
