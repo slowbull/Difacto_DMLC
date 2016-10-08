@@ -18,6 +18,7 @@ struct Progress {
     if (new_ex() == 0) return "";
 
     char buf[256];
+	// store string in buf.
     snprintf(buf, 256, "%8.3g  %8.3g  %11.6g  %8.6lf  %8.6lf  %8.6lf",
              ttl_ex, new_ex(), nnz_w, objv() / new_ex(),
              acc() / count(), auc() / count());

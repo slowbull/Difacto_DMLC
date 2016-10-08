@@ -98,7 +98,7 @@ class Customer {
    *
    * If the receiver is this request is a single node, this function is blocked
    * until a reply message with the same #timestamp has been received from this
-   * receiver, or it is considered as deed.  Otherwise, this function will wait
+   * receiver, or it is considered as dead.  Otherwise, this function will wait
    * for the response from each alive node in the receiver node group.
    *
    * @param timestamp the timestamp of this request

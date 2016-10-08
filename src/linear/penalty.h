@@ -6,6 +6,10 @@ namespace linear {
 /**
  * @brief \f$ \lambda_1 * \|x\|_1 + \lambda_2 * \|x\|_2^2 \f$
  */
+// class template
+//
+// set parameters and proximal operator !
+
 template <typename T>
 class L1L2 {
  public:

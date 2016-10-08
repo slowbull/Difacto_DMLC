@@ -12,6 +12,10 @@ import tracker
 import signal
 import logging
 
+# subprocess handles shell 
+# threading handles python function
+
+# argparse to parse argument from command line.
 parser = argparse.ArgumentParser(description='DMLC script to submit dmlc jobs as local process')
 parser.add_argument('-n', '--nworker', required=True, type=int,
                     help = 'number of worker nodes to be launched')

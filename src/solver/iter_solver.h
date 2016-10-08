@@ -96,6 +96,7 @@ class IterServer : public ps::App {
   IterServer() {}
   virtual ~IterServer() {}
 
+  // load model or save model.  request
   virtual void ProcessRequest(ps::Message* request) {
     if (request->task.msg().size() == 0) return;
     IterCmd cmd(request->task.cmd());

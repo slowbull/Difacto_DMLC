@@ -13,7 +13,7 @@ namespace dmlc {
 namespace linear {
 
 using FeaID = ps::Key;
-template <typename T> using Blob = ps::Blob<T>;
+template <typename T> using Blob = ps::Blob<T>;   // alias
 
 /**
  * \brief the base sgd handle
@@ -32,6 +32,7 @@ struct ISGDHandle {
     }
   }
 
+  // update? 
   inline static void Update(float cur_w, float old_w) {
     if (old_w == 0 && cur_w != 0) {
       ++ new_w;
@@ -48,7 +49,8 @@ struct ISGDHandle {
   // learning rate
   float alpha = 0.1, beta = 1;
 
-  std::function<void(const Progress& prog)> reporter;
+  // function wrapper
+  std::function<void(const Progress& prog)> reporter; 
   static int64_t new_w;
 
  private:
@@ -68,6 +70,7 @@ template <typename T> inline void TSave(Stream* fo, T* const ptr) {
 /**
  * \brief Standard SGD value
  */
+// struct of vaiable w, just 1 value? 
 struct SGDEntry {
   float w = 0;
   inline void Load(Stream *fi) { TLoad(fi, this); }
@@ -80,17 +83,18 @@ struct SGDEntry {
  *
  * use alpha / ( beta + sqrt(t)) as the learning rate
  */
+// start finish push pull update
 struct SGDHandle : public ISGDHandle {
  public:
   inline void Start(bool push, int timestamp, int cmd, void* msg) {
     if (push) {
-      eta = (this->beta + sqrt((float)t)) / this->alpha;
+      eta = (this->beta + sqrt((float)t)) / this->alpha;  // compute learning rate
       t += 1;
     }
   }
   inline void Push(FeaID key, Blob<const float> grad, SGDEntry& w) {
     float old_w = w.w;
-    w.w = penalty.Solve(eta * w.w - grad[0], eta);
+    w.w = penalty.Solve(eta * w.w - grad[0], eta); // proximal mapping !  why just grad[0] ? 
     Update(w.w, old_w);
   }
 
@@ -198,6 +202,7 @@ struct FTRLHandle : public ISGDHandle {
 
 class AsgdServer : public solver::MinibatchServer {
  public:
+  // asgdserver constructor
   AsgdServer(const Config& conf) : conf_(conf) {
     auto algo = conf_.algo();
     if (algo == Config::SGD) {
@@ -221,10 +226,11 @@ class AsgdServer : public solver::MinibatchServer {
     if (conf_.has_lr_eta()) h.alpha = conf_.lr_eta();
     if (conf_.has_lr_beta()) h.beta = conf_.lr_beta();
 
+	// lambda function [capture list](params){body}
     h.reporter = [this](const Progress& prog) {
       ReportToScheduler(prog.data);
     };
-    ps::OnlineServer<float, Entry, Handle> s(h);
+    ps::OnlineServer<float, Entry, Handle> s(h);  //online server ? 
     server_ = s.server();
   }
 
@@ -256,7 +262,7 @@ class AsgdWorker : public solver::MinibatchWorker {
   virtual void ProcessMinibatch(const Minibatch& mb, const Workload& wl) {
     // find the unique feature ids in this minibatch
     auto data = new dmlc::data::RowBlockContainer<unsigned>();
-    auto feaid = std::make_shared<std::vector<FeaID>>();
+    auto feaid = std::make_shared<std::vector<FeaID>>();  // make_shared to generate shared_ptr
 
     double start = GetTime();
     Localizer<FeaID> lc(nt_);

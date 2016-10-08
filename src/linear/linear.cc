@@ -4,7 +4,8 @@
 
 namespace ps {
 App* App::Create(int argc, char *argv[]) {
-  CHECK_GE(argc, 2) << "\nusage: " << argv[0] << " conf_file";
+  // log check
+  CHECK_GE(argc, 2) << "\nusage: " << argv[0] << " conf_file"; 
   ::dmlc::ArgParser parser;
   if (strcmp(argv[1], "none")) parser.ReadFile(argv[1]);
   parser.ReadArgs(argc-2, argv+2);

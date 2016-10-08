@@ -159,7 +159,7 @@ class MinibatchScheduler : public IterScheduler {
     auto disp = ProgHeader();
     if (disp.size()) {
       printf("  sec %s\n", disp.c_str());
-      fflush(stdout);
+      fflush(stdout); // print + fflush
     }
 
     bool stop = false;
